@@ -24,7 +24,7 @@ const icons = {
   )
 };
 
-const Snackbar = ({ variant = "info", message, onClose, showClose = true, exiting }) => {
+const Snackbar = ({ variant = "info", message, icon, onClose, showClose = true, exiting }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -47,7 +47,15 @@ const Snackbar = ({ variant = "info", message, onClose, showClose = true, exitin
       className={`flex items-center justify-between w-full max-w-md px-4 py-3 bg-white rounded-lg shadow-md transform transition-all duration-300 ease-out ${visible ? "translate-y-0 opacity-100 scale-100" : "-translate-y-2 opacity-0 scale-95"}`}
     >
       <div className="flex items-center space-x-3 overflow-hidden w-full">
-        {icons[variant] || icons.info}
+        {icon ? (
+          typeof icon === 'string' ? (
+            <img src={icon} alt="icon" className="flex-shrink-0 w-8 h-8 rounded-full object-cover" />
+          ) : (
+            icon
+          )
+        ) : (
+          icons[variant] || icons.info
+        )}
         <div className="flex-1 min-w-0">
           {typeof message === "string" ? (
             <p className="text-sm font-medium text-gray-700 truncate">

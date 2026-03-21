@@ -21,7 +21,7 @@ export const SnackbarProvider = ({ children }) => {
 
   const addSnackbar = useCallback(
     (message, variant = "info", options = {}) => {
-      const { id: manualId, duration = 5000 } =
+      const { id: manualId, duration = 5000, icon } =
         typeof options === "number" ? { duration: options } : options;
 
       const id = manualId || Math.random().toString(36).substr(2, 9);
@@ -36,7 +36,7 @@ export const SnackbarProvider = ({ children }) => {
 
       setSnackbars((prev) => [
         ...prev,
-        { id, message: resolvedMessage, variant, duration },
+        { id, message: resolvedMessage, variant, duration, icon },
       ]);
 
       if (duration && duration !== Infinity) {

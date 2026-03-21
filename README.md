@@ -65,6 +65,22 @@ snackbar.info("Uploading...", {
 snackbar.info("Persistent message", { duration: Infinity });
 ```
 
+### Custom Icons / Images
+
+You can customize the icon displayed in the snackbar by passing an `icon` property. This can be a string URL for an image, or a custom React component!
+
+```javascript
+// Using an image URL
+snackbar.success("Welcome back!", {
+  icon: "https://avatars.githubusercontent.com/u/9919?s=64&v=4" 
+});
+
+// Using a custom React Node / SVG
+snackbar.info("Processing...", {
+  icon: <MyCustomSpinnerIcon />
+});
+```
+
 ### Advanced: Manual Dismissal
 
 ```javascript

@@ -17,6 +17,7 @@ const SnackbarContainer = () => {
             <Snackbar
               variant={item.variant}
               message={item.message}
+              icon={item.icon}
               exiting={item.exiting}
               onClose={() => actions.dismiss(item.id)}
             />
