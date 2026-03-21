@@ -20,16 +20,16 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wolf1729/crouton.git"
+    "url": "git+https://github.com/wolf1729/popcrumb.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "bugs": {
-    "url": "https://github.com/wolf1729/crouton/issues"
+    "url": "https://github.com/wolf1729/popcrumb/issues"
   },
-  "homepage": "https://github.com/wolf1729/crouton#readme",
+  "homepage": "https://github.com/wolf1729/popcrumb#readme",
   "peerDependencies": {
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0"
