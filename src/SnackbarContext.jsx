@@ -10,6 +10,15 @@ export const SnackbarProvider = ({ children }) => {
     setSnackbars((prev) => prev.filter((s) => s.id !== id));
   }, []);
 
+  const dismissSnackbar = useCallback((id) => {
+    setSnackbars((prev) =>
+      prev.map((s) => (s.id === id ? { ...s, exiting: true } : s))
+    );
+    setTimeout(() => {
+      removeSnackbar(id);
+    }, 300);
+  }, [removeSnackbar]);
+
   const addSnackbar = useCallback(
     (message, variant = "info", options = {}) => {
       const { id: manualId, duration = 5000 } =
@@ -31,11 +40,11 @@ export const SnackbarProvider = ({ children }) => {
       ]);
 
       if (duration && duration !== Infinity) {
-        setTimeout(() => removeSnackbar(id), duration);
+        setTimeout(() => dismissSnackbar(id), duration);
       }
       return id;
     },
-    [removeSnackbar],
+    [dismissSnackbar],
   );
 
   const snackbarActions = {
@@ -43,7 +52,7 @@ export const SnackbarProvider = ({ children }) => {
     error: (msg, opts) => addSnackbar(msg, "error", opts),
     warning: (msg, opts) => addSnackbar(msg, "warning", opts),
     info: (msg, opts) => addSnackbar(msg, "info", opts),
-    dismiss: (id) => removeSnackbar(id),
+    dismiss: (id) => dismissSnackbar(id),
   };
 
   return (

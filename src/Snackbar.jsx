@@ -1,7 +1,7 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-const Snackbar = ({ variant = "info", message, onClose, showClose = true }) => {
+const Snackbar = ({ variant = "info", message, onClose, showClose = true, exiting }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
@@ -9,9 +9,14 @@ const Snackbar = ({ variant = "info", message, onClose, showClose = true }) => {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  useEffect(() => {
+    if (exiting) {
+      setVisible(false);
+    }
+  }, [exiting]);
+
   const handleClose = () => {
-    setVisible(false);
-    setTimeout(onClose, 300);
+    onClose();
   };
 
   return (
