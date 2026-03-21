@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
 
 ### 2. Triggering Alerts
 
-Import `snackbar` from `crouton` anywhere to show alerts:
+Import `snackbar` from `popcrumb` anywhere to show alerts:
 
 ```typescript
 import { snackbar } from "popcrumb";
