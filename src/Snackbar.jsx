@@ -76,7 +76,13 @@ const Snackbar = ({ variant = "info", message, icon, onClose, showClose = true, 
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
           {typeof message === "string" ? (
-            <p style={{ margin: 0, fontSize: '0.875rem', fontWeight: 600, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+            <p style={{ 
+              margin: 0, 
+              fontSize: '0.875rem', 
+              fontWeight: 600, 
+              lineHeight: '1.25rem',
+              wordBreak: 'break-word' 
+            }}>
               {message}
             </p>
           ) : (
