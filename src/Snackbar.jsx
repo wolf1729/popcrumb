@@ -62,7 +62,7 @@ const Snackbar = ({ variant = "info", message, icon, onClose, showClose = true, 
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
       }}
     >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', overflow: 'hidden', flex: 1 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1 }}>
         <div style={{ flexShrink: 0, display: 'flex' }}>
           {icon ? (
             typeof icon === 'string' ? (
