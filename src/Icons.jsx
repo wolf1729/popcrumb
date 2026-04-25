@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, Box } from './Primitives';
+import { Platform, Box } from './Primitives.js';
 
 // Lazy load react-native-svg if on native
 let Svg, Path, Circle, Line;

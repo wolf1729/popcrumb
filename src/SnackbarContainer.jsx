@@ -2,7 +2,7 @@
 import React from "react";
 import Snackbar from "./Snackbar";
 import { useSnackbar } from "./SnackbarContext";
-import { Box, Platform } from "./Primitives";
+import { Box, Platform } from "./Primitives.js";
 
 const SnackbarContainer = () => {
   const { snackbars, snackbar: actions } = useSnackbar();

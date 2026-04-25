@@ -9,6 +9,10 @@ export default defineConfig({
   clean: true,
   treeshake: true,
   esbuildOptions(options) {
+    options.loader = {
+      ...options.loader,
+      '.js': 'jsx',
+    };
     options.banner = {
       js: '"use client";',
     };

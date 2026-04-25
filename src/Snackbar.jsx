@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { Box, Typography, Button, IconImage, Platform } from "./Primitives";
+import { Box, Typography, Button, IconImage, Platform } from "./Primitives.js";
 import { SuccessIcon, ErrorIcon, WarningIcon, InfoIcon, CloseIcon } from "./Icons";
 
 const variantIcons = {
