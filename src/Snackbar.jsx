@@ -1,33 +1,20 @@
 "use client";
 import React, { useEffect, useState } from "react";
+import { Box, Typography, Button, IconImage, Platform } from "./Primitives";
+import { SuccessIcon, ErrorIcon, WarningIcon, InfoIcon, CloseIcon } from "./Icons";
 
-const icons = {
-  success: (
-    <div style={{ flexShrink: 0, width: '2rem', height: '2rem', borderRadius: '50%', backgroundColor: 'rgba(34, 197, 94, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#22c55e' }}>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6L9 17l-5-5"/></svg>
-    </div>
-  ),
-  error: (
-    <div style={{ flexShrink: 0, width: '2rem', height: '2rem', borderRadius: '50%', backgroundColor: 'rgba(239, 68, 68, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#ef4444' }}>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>
-    </div>
-  ),
-  warning: (
-    <div style={{ flexShrink: 0, width: '2rem', height: '2rem', borderRadius: '50%', backgroundColor: 'rgba(234, 179, 8, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#eab308' }}>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
-    </div>
-  ),
-  info: (
-    <div style={{ flexShrink: 0, width: '2rem', height: '2rem', borderRadius: '50%', backgroundColor: 'rgba(59, 130, 246, 0.2)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#3b82f6' }}>
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-    </div>
-  )
+const variantIcons = {
+  success: <SuccessIcon />,
+  error: <ErrorIcon />,
+  warning: <WarningIcon />,
+  info: <InfoIcon />,
 };
 
 const Snackbar = ({ variant = "info", message, icon, onClose, showClose = true, exiting }) => {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
+    // requestAnimationFrame is available on both
     const raf = requestAnimationFrame(() => setVisible(true));
     return () => cancelAnimationFrame(raf);
   }, []);
@@ -42,77 +29,130 @@ const Snackbar = ({ variant = "info", message, icon, onClose, showClose = true, 
     onClose();
   };
 
-  return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        width: '100%',
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    width: '100%',
+    paddingVertical: 12, // Native compatible
+    paddingHorizontal: 16,
+    backgroundColor: '#121212',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.1)',
+    borderRadius: 12,
+    
+    // Platform specific
+    ...Platform.select({
+      web: {
         padding: '0.75rem 1rem',
-        backgroundColor: '#121212',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
-        color: 'white',
-        borderRadius: '0.75rem',
         boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.4), 0 4px 6px -2px rgba(0, 0, 0, 0.2)',
         backdropFilter: 'blur(8px)',
         WebkitBackdropFilter: 'blur(8px)',
         transform: visible ? 'translateY(0) scale(1)' : 'translateY(-8px) scale(0.95)',
         opacity: visible ? 1 : 0,
         transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
-      }}
-    >
-      <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', flex: 1 }}>
-        <div style={{ flexShrink: 0, display: 'flex' }}>
+      },
+      native: {
+        elevation: 5,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 4,
+        transform: [
+          { translateY: visible ? 0 : -8 },
+          { scale: visible ? 1 : 0.95 }
+        ],
+        opacity: visible ? 1 : 0,
+      }
+    })
+  };
+
+  const contentStyle = {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    flex: 1,
+    ...Platform.select({
+      web: { display: 'flex' }
+    })
+  };
+
+  const iconWrapperStyle = {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: variant === 'success' ? 'rgba(34, 197, 94, 0.2)' :
+                     variant === 'error' ? 'rgba(239, 68, 68, 0.2)' :
+                     variant === 'warning' ? 'rgba(234, 179, 8, 0.2)' :
+                     'rgba(59, 130, 246, 0.2)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...Platform.select({
+      web: { display: 'flex', flexShrink: 0 }
+    })
+  };
+
+  const textStyle = {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
+    flex: 1,
+    ...Platform.select({
+      web: { 
+        margin: 0, 
+        lineHeight: '1.25rem',
+        wordBreak: 'break-word' 
+      }
+    })
+  };
+
+  return (
+    <Box style={containerStyle}>
+      <Box style={contentStyle}>
+        <Box style={iconWrapperStyle}>
           {icon ? (
             typeof icon === 'string' ? (
-              <img src={icon} alt="icon" style={{ width: '2rem', height: '2rem', borderRadius: '50%', objectFit: 'cover' }} />
+              <IconImage source={{ uri: icon }} style={{ width: 32, height: 32, borderRadius: 16 }} />
             ) : (
               icon
             )
           ) : (
-            icons[variant] || icons.info
+            variantIcons[variant] || variantIcons.info
           )}
-        </div>
-        <div style={{ flex: 1, minWidth: 0 }}>
+        </Box>
+        <Box style={{ flex: 1 }}>
           {typeof message === "string" ? (
-            <p style={{ 
-              margin: 0, 
-              fontSize: '0.875rem', 
-              fontWeight: 600, 
-              lineHeight: '1.25rem',
-              wordBreak: 'break-word' 
-            }}>
+            <Typography style={textStyle}>
               {message}
-            </p>
+            </Typography>
           ) : (
-            <div style={{ fontSize: '0.875rem', fontWeight: 600 }}>{message}</div>
+            <Box>{message}</Box>
           )}
-        </div>
-      </div>
+        </Box>
+      </Box>
       {showClose && (
-        <button
-          onClick={handleClose}
+        <Button
+          onPress={handleClose}
+          onClick={handleClose} // Both for compatibility
           style={{
-            marginLeft: '1rem',
-            flexShrink: 0,
-            background: 'none',
-            border: 'none',
-            color: 'rgba(255, 255, 255, 0.4)',
-            cursor: 'pointer',
-            padding: '4px',
-            display: 'flex',
-            transition: 'color 0.2s'
+            marginLeft: 16,
+            padding: 4,
+            ...Platform.select({
+              web: {
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+              }
+            })
           }}
-          onMouseOver={(e) => e.currentTarget.style.color = 'white'}
-          onMouseOut={(e) => e.currentTarget.style.color = 'rgba(255, 255, 255, 0.4)'}
         >
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
+          <Box style={{ color: 'rgba(255, 255, 255, 0.4)' }}>
+            <CloseIcon />
+          </Box>
+        </Button>
       )}
-    </div>
+    </Box>
   );
 };
 

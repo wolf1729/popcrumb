@@ -32,13 +32,29 @@
   "homepage": "https://github.com/wolf1729/popcrumb#readme",
   "peerDependencies": {
     "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
+    "react-dom": ">=18.0.0",
+    "react-native": "*",
+    "react-native-svg": "*"
+  },
+  "peerDependenciesMeta": {
+    "react-dom": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    },
+    "react-native-svg": {
+      "optional": true
+    }
   },
   "devDependencies": {
     "react": "^19.2.4",
     "react-dom": "^19.2.4",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
+    "@types/react-native": "^0.73.0",
+    "react-native": "^0.78.0",
+    "react-native-svg": "^15.11.1",
     "tsup": "^8.5.1",
     "typescript": "^5.9.3"
   }

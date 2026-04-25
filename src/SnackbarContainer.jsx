@@ -2,39 +2,53 @@
 import React from "react";
 import Snackbar from "./Snackbar";
 import { useSnackbar } from "./SnackbarContext";
+import { Box, Platform } from "./Primitives";
 
 const SnackbarContainer = () => {
   const { snackbars, snackbar: actions } = useSnackbar();
 
-  return (
-    <div 
-      style={{
-        position: 'fixed',
-        top: '1rem',
+  const containerStyle = {
+    position: Platform.isWeb ? 'fixed' : 'absolute',
+    top: Platform.isWeb ? '1rem' : 40, // Top margin for native (avoiding status bar usually)
+    left: 0,
+    right: 0,
+    zIndex: 9999,
+    alignItems: 'center',
+    paddingHorizontal: 16,
+    pointerEvents: 'box-none', // Native compatible for pass-through
+    ...Platform.select({
+      web: {
         left: '50%',
+        right: 'auto',
         transform: 'translateX(-50%)',
-        zIndex: 9999,
         display: 'flex',
         flexDirection: 'column',
-        alignItems: 'center',
         pointerEvents: 'none',
         width: '100%',
         maxWidth: '400px',
-        padding: '0 1rem'
-      }}
-    >
-      <div style={{
-        display: 'flex',
-        flexDirection: 'column-reverse',
-        gap: '0.75rem',
-        width: '100%'
-      }}>
+      }
+    })
+  };
+
+  const listStyle = {
+    flexDirection: 'column-reverse',
+    gap: 12,
+    width: '100%',
+    maxWidth: 400,
+    ...Platform.select({
+      web: { display: 'flex' }
+    })
+  };
+
+  return (
+    <Box style={containerStyle}>
+      <Box style={listStyle}>
         {snackbars?.map((item) => (
-          <div
+          <Box
             key={item.id}
             style={{ 
               pointerEvents: 'auto',
-              transition: 'all 0.3s ease'
+              marginBottom: Platform.isNative ? 12 : 0
             }}
           >
             <Snackbar
@@ -44,10 +58,10 @@ const SnackbarContainer = () => {
               exiting={item.exiting}
               onClose={() => actions.dismiss(item.id)}
             />
-          </div>
+          </Box>
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 
